@@ -1,0 +1,50 @@
+/* 4px base scale, plus layout and radius.
+ *
+ * Note that several values used in the layouts are deliberately off-grid
+ * (26px, 34px, 44px, 62px, 168px). Those are intended and must not be snapped
+ * back to a 4/8px grid. */
+
+:root {
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --space-6: 32px;
+  --space-7: 48px;
+  --space-8: 64px;
+  --space-9: 88px;
+  --space-10: 104px;
+
+  --container-max: 1080px;
+  /* Max line length for family-facing prose. */
+  --measure: 62ch;
+  --gutter: 48px;
+  --gutter-tablet: 32px;
+  --gutter-mobile: 24px;
+  --nav-height: 72px;
+
+  /* The accent dash. */
+  --accent-line-w: 24px;
+  --accent-line-h: 2px;
+  --rule-width: 1px;
+
+  /* Everything is square. The 2px is used ONLY on photography and
+     photo-backed tiles; the 48px tile radius is app-icon only and never
+     appears on the web. */
+  --radius-none: 0;
+  --radius-soft: 2px;
+  --radius-tile: 48px;
+}
+
+@media (max-width: 1024px) {
+  :root {
+    --gutter: 32px;
+  }
+}
+
+@media (max-width: 640px) {
+  :root {
+    --gutter: 24px;
+  }
+}

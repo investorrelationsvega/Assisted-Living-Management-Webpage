@@ -1,5 +1,18 @@
 @import 'tailwindcss';
 
+/* Vega ALM design system tokens — the contract from the design handoff.
+   Values live in tokens/*.css and are transcribed from the handoff's token
+   tables; keep the semantic-alias layer intact when editing. */
+@import './tokens/colors.css';
+@import './tokens/typography.css';
+@import './tokens/spacing.css';
+@import './tokens/effects.css';
+
+/* TODO(design-migration): the @theme block below belongs to the pre-handoff
+   scaffold (serif display face, clay as a second accent, rounded cards). It is
+   retained only so the current pages keep building, and is removed as each page
+   moves onto the tokens above. Do not build new work against it. */
+
 /* Design tokens. The palette is warm and low-glare, and base type runs a step
    larger than a typical marketing site — most visitors here are older adults
    or their adult children reading on a phone. */

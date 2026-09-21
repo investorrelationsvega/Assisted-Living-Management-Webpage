@@ -1,0 +1,32 @@
+/* Easing, duration, shadow, blur, image treatment.
+ *
+ * Structure is carried by 1px hairlines, not by shadow or fill. The parent
+ * Vega system has no shadows at all; ALM has one, for a white card floated on
+ * white or sand. */
+
+:root {
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1); /* signature easing */
+  --ease-standard: cubic-bezier(0.4, 0, 0.2, 1);
+
+  --dur-fast: 0.25s;
+  --dur-base: 0.35s;
+  --dur-slow: 0.7s;
+  --dur-reveal: 0.9s;
+  --dur-theme: 0.4s;
+
+  --shadow-card: 0 1px 2px rgba(31, 27, 22, 0.05), 0 8px 24px rgba(31, 27, 22, 0.06);
+  --shadow-overlay: 0 16px 48px rgba(31, 27, 22, 0.16);
+
+  --hover-opacity: 0.65;
+  --hover-wash-light: rgba(31, 27, 22, 0.035);
+
+  /* Glass is used in exactly one place: the fixed nav. */
+  --nav-blur: 16px;
+  --nav-bg-light: rgba(255, 255, 255, 0.92);
+  --nav-bg-dark: rgba(23, 21, 15, 0.9);
+
+  /* Slightly desaturated and flattened, so photography sits with the warm
+     neutrals rather than shouting against them. */
+  --img-filter: saturate(0.94) contrast(0.97);
+  --img-overlay-warm: linear-gradient(180deg, rgba(23, 21, 15, 0) 40%, rgba(23, 21, 15, 0.55) 100%);
+}

@@ -1,0 +1,76 @@
+/* System 01 "Graphite & Sage".
+ *
+ * One chromatic hue: sage. The warmth comes from the greys leaning warm, not
+ * from a second accent — that is what keeps Vega ALM reading as a sibling of
+ * the Vega parent brand. Do not introduce a second brand accent.
+ *
+ * Values transcribed from the design system handoff; tokens/colors.css in the
+ * design bundle is the source of truth. */
+
+:root {
+  /* Base neutrals */
+  --valm-white: #ffffff;
+  --valm-sand: #edeae4;
+  --valm-charcoal: #1c1b18;
+  --valm-ink: #1c1b18;
+
+  /* Retired — present only so old references resolve. Not for new work. */
+  --valm-cream: #ffffff;
+  --valm-cream-legacy: #f4f1eb;
+
+  /* Warm greys */
+  --valm-grey: #67635b;
+  --valm-grey-label: #7c786f;
+  --valm-grey-on-dark: #b2ada3;
+  --valm-grey-label-dark: #c6c0b5;
+  --valm-grey-muted: #918c83;
+  --valm-rule: #ddd9d1;
+  --valm-rule-soft: #c6c0b5;
+  --valm-dark-rule: #2c2a26;
+
+  /* Sage — the only accent */
+  --valm-green-on-light: #3f6350;
+  --valm-green: #8a9a86;
+  --valm-green-wash: #eaefea;
+
+  /* Clay — status only, never a CTA, dash, rule or section accent */
+  --valm-clay: #a06844;
+  --valm-clay-soft: #d3b39a;
+  --valm-clay-wash: #f2e8e0;
+
+  /* Status */
+  --valm-status-ok: #3f6350;
+  --valm-status-attention: #a06844;
+  --valm-status-alert: #8c3b2c;
+
+  /* Semantic aliases — components reference these, not the base tokens. */
+  --surface-base: #ffffff;
+  --surface-alt: #edeae4;
+  --surface-card: #ffffff;
+  --surface-dark: #1c1b18;
+  --surface-overlay: rgba(23, 21, 15, 0.94);
+
+  --text-body: #67635b;
+  --text-heading: #1c1b18;
+  --text-on-dark: #f6f3ee;
+  --text-on-dark-secondary: #b2ada3;
+
+  --label-on-light: #7c786f;
+  --label-on-dark: #c6c0b5;
+
+  --accent: #3f6350;
+  --accent-on-dark: #8a9a86;
+  /* Legacy alias: accent="warm" is a no-op kept for compatibility. */
+  --accent-warm: #3f6350;
+
+  --link: #3f6350;
+  --link-hover: #1c1b18;
+
+  --border-on-light: #ddd9d1;
+  --border-on-dark: #2c2a26;
+  --border-input: #c6c0b5;
+
+  --focus-ring: #3f6350;
+  --selection-bg: #3f6350;
+  --selection-fg: #ffffff;
+}
