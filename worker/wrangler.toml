@@ -1,0 +1,26 @@
+# Worker that serves the Pages deployment at vegarei.com/ALM.
+#
+# This is separate from the Pages project itself, which is connected through
+# the Cloudflare dashboard and needs no config file. Deploy with:
+#
+#   cd worker && npx wrangler deploy
+#
+# Requires vegarei.com to be an active zone in the same Cloudflare account,
+# proxied (orange cloud). A Worker route cannot intercept traffic for a domain
+# Cloudflare does not sit in front of.
+
+name = "vega-alm-proxy"
+main = "index.js"
+compatibility_date = "2026-09-01"
+
+# Both cases are routed so the Worker can issue the canonical redirect itself.
+routes = [
+  { pattern = "vegarei.com/ALM*", zone_name = "vegarei.com" },
+  { pattern = "vegarei.com/alm*", zone_name = "vegarei.com" },
+  { pattern = "www.vegarei.com/ALM*", zone_name = "vegarei.com" },
+  { pattern = "www.vegarei.com/alm*", zone_name = "vegarei.com" },
+]
+
+[vars]
+# Set to the Pages project's production URL once the project exists.
+PAGES_ORIGIN = "https://vega-alm.pages.dev"

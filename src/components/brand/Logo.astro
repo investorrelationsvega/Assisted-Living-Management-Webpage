@@ -1,0 +1,46 @@
+---
+import { LOGO, type LogoVariant } from './logo-paths';
+
+interface Props {
+  variant?: LogoVariant;
+  /** Rendered height in px. Width is derived from the artwork's aspect ratio. */
+  height?: number;
+  /**
+   * Any CSS color. Defaults to currentColor so the mark inherits from its
+   * context. Per the design system this prop is `color`, not `tone`.
+   */
+  color?: string;
+  /**
+   * Accessible name. Pass null for a decorative instance (the hero watermark),
+   * which is then hidden from assistive tech.
+   */
+  title?: string | null;
+  class?: string;
+}
+
+const {
+  variant = 'lockup',
+  height = 40,
+  color = 'currentColor',
+  title = 'Vega Assisted Living Management',
+  class: className = '',
+} = Astro.props;
+
+const { viewBox, d, ratio } = LOGO[variant];
+const width = Math.round(height * ratio * 100) / 100;
+const decorative = title === null;
+---
+
+<svg
+  class={className}
+  viewBox={viewBox}
+  width={width}
+  height={height}
+  fill={color}
+  role={decorative ? undefined : 'img'}
+  aria-hidden={decorative ? 'true' : undefined}
+  aria-label={decorative ? undefined : title}
+  xmlns="http://www.w3.org/2000/svg"
+>
+  <path fill-rule="evenodd" d={d} />
+</svg>

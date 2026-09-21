@@ -27,8 +27,9 @@ if (isNoindex) {
   X-Robots-Tag: noindex, nofollow`;
 }
 
-// Fingerprinted assets are safe to cache indefinitely.
-blocks.push(`/_astro/*
+// Fingerprinted assets are safe to cache indefinitely. The path carries the
+// base prefix because the build is nested under it.
+blocks.push(`/ALM/_astro/*
   Cache-Control: public, max-age=31536000, immutable`);
 
 const body = blocks.join('\n\n') + '\n';

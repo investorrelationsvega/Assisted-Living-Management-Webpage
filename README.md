@@ -21,11 +21,28 @@ npm run preview  # serve the built site locally
 npm run check    # Astro + TypeScript diagnostics
 ```
 
-## Deployment: Cloudflare Pages
+## Deployment: Cloudflare Pages at vegarei.com/ALM
 
-The build is fully static, so no adapter is needed. Connect the repository in
-the Cloudflare dashboard (Workers and Pages, then Create, then Pages, then
-Connect to Git) with:
+The site is served at **https://vegarei.com/ALM**, a subpath of the main Vega
+domain rather than its own host. That is the right call for SEO, since the
+pages inherit vegarei.com's existing domain authority instead of starting from
+zero on a new subdomain. It costs one piece of extra infrastructure.
+
+**Cloudflare Pages cannot serve a subpath by itself.** A Pages custom domain
+attaches a domain or a subdomain, never a path. So the setup is two parts:
+
+1. A **Pages project** that builds this repo and serves it at `*.pages.dev`.
+2. A **Worker** on the `vegarei.com/ALM*` route that proxies to that project.
+
+The build is nested under `/ALM` on disk (`outDir: './dist/ALM'`), so the Pages
+origin already answers at `/ALM/...`. The Worker is therefore a straight
+path-through proxy with nothing to rewrite, and the preview URL behaves
+identically to production.
+
+### Step 1: create the Pages project
+
+In the Cloudflare dashboard, go to Workers and Pages, then Create, then Pages,
+then Connect to Git, and pick this repository. Configure:
 
 | Setting | Value |
 | --- | --- |
@@ -34,31 +51,73 @@ Connect to Git) with:
 | Production branch | `main` |
 | Node version | `22` (from `.nvmrc`, or set `NODE_VERSION=22`) |
 
-Cloudflare then builds a **preview deployment for every branch push**, each on
-its own URL, which is the intended way to review changes before they reach
-production. No workflow file or API token is required.
+Note the output directory is `dist`, not `dist/ALM`. Cloudflare serves the dist
+root, which contains the `ALM/` directory and `_headers`.
+
+The project gets a URL like `vega-alm.pages.dev`. Because of the nesting, the
+site is at **`vega-alm.pages.dev/ALM/`**, not at the root.
+
+Every branch push now builds its own preview deployment. That is the intended
+way to review changes.
+
+### Step 2: deploy the Worker
+
+Set `PAGES_ORIGIN` in `worker/wrangler.toml` to the Pages URL from step 1, then:
+
+```bash
+cd worker
+npx wrangler deploy
+```
+
+This requires **vegarei.com to be an active zone in the same Cloudflare
+account, proxied (orange cloud)**. A Worker route cannot intercept traffic for
+a domain Cloudflare does not sit in front of. If vegarei.com is hosted
+elsewhere with DNS somewhere else, that has to move first.
+
+The Worker also redirects `/alm` to `/ALM`, since URL paths are case sensitive
+and the lowercase form would otherwise miss every asset.
 
 ### Preview deployments are not indexable
 
-A preview build would otherwise compete with the real site for the same search
-terms and leak placeholder content into results. Two mechanisms prevent that,
-both driven by `CF_PAGES_BRANCH` (see `src/deploy.ts`):
+A preview would otherwise compete with the real site for the same terms and
+leak placeholder content into results. Protection is keyed on `CF_PAGES_BRANCH`
+(see `src/deploy.ts`):
 
-- `robots.txt` is generated per build (`src/pages/robots.txt.ts`). Production
-  allows crawling and points at the sitemap; previews send `Disallow: /`.
-- `dist/_headers` is written after the build (`scripts/write-headers.mjs`) and
-  adds `X-Robots-Tag: noindex, nofollow` on previews only. It also carries the
-  security headers and the immutable cache policy for `/_astro/*`.
+- **`X-Robots-Tag: noindex, nofollow`** on previews, written into
+  `dist/_headers` by `scripts/write-headers.mjs`. This is the primary
+  mechanism.
+- **A `<meta name="robots">` tag** on every page of a preview build, as a
+  second layer.
+
+`robots.txt` is generated too, but note it is **not authoritative here**:
+crawlers only read `/robots.txt` at the domain root, and that file belongs to
+the parent vegarei.com site. Which leads to the one thing this repo cannot do
+for itself:
+
+> **Action for whoever owns vegarei.com:** add a sitemap reference to the root
+> `robots.txt` so this site gets discovered:
+> `Sitemap: https://vegarei.com/ALM/sitemap-index.xml`
 
 The default leans toward indexable: only a positively identified preview is
-blocked, so a local or manual build cannot silently suppress the production
-site. Set `SITE_NOINDEX=1` to force the block.
+blocked, so a local or manual build cannot silently suppress production. Set
+`SITE_NOINDEX=1` to force the block.
 
 Verify either case locally:
 
 ```bash
-CF_PAGES_BRANCH=main npm run build          # robots allows, no X-Robots-Tag
-CF_PAGES_BRANCH=some-branch npm run build   # robots disallows, noindex header
+CF_PAGES_BRANCH=main npm run build          # no noindex anywhere
+CF_PAGES_BRANCH=some-branch npm run build   # meta tag + X-Robots-Tag header
+```
+
+### Linking within the site
+
+Astro prefixes asset URLs with the base automatically, but **not hrefs you
+write by hand**. A bare `href="/owners/"` escapes the subpath and lands on the
+parent Vega site. Use the helper:
+
+```ts
+import { path } from '../utils/url';
+path('/owners/')  // -> /ALM/owners/
 ```
 
 ## Structure
@@ -70,8 +129,14 @@ src/
   styles/
     global.css           Tailwind import + token imports
     tokens/              Design system tokens (colors, typography, spacing, effects)
+  components/brand/      Logo component and traced logo geometry
+  utils/url.ts           path() helper for subpath-safe internal links
+  assets/brand/          Source logo artwork
   layouts/ components/ pages/
+public/brand/            Standalone logo SVGs for Open Graph and external use
+scripts/clean.mjs        Pre-build dist cleanup
 scripts/write-headers.mjs  Post-build Cloudflare _headers writer
+worker/                  Cloudflare Worker serving the site at /ALM
 ```
 
 ### Copy
@@ -142,8 +207,6 @@ a proposal conversation.
 
 ## Before this goes live
 
-- [ ] **Design assets.** `vega-mark.svg` (nav and hero watermark) and the ALM
-      lockups are not in the repository yet. The `Logo` component needs them.
 - [ ] **Portfolio figures.** The stats band, the communities grid and the owner
       reporting table all render labelled placeholders. Only the founding year
       (2012) is verified. Publishing unverified occupancy or unit counts to an
@@ -157,8 +220,8 @@ a proposal conversation.
 - [ ] **Form endpoints.** Three forms (inquiry, proposal, application) need real
       handlers. Forms render disabled until one is set, so nothing is silently
       dropped.
-- [ ] **Production domain** in `astro.config.mjs`, which drives canonical URLs,
-      Open Graph tags and the sitemap.
+- [ ] **Root robots.txt** on vegarei.com should reference this site's sitemap
+      (see the deployment section). This repo cannot set it.
 
 ## Accessibility
 
