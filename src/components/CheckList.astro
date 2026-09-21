@@ -1,0 +1,28 @@
+---
+interface Props {
+  items: readonly string[];
+  class?: string;
+}
+
+const { items, class: className = '' } = Astro.props;
+---
+
+<ul class={`space-y-2.5 ${className}`}>
+  {
+    items.map((item) => (
+      <li class="flex gap-3">
+        <svg
+          class="mt-1 h-5 w-5 shrink-0 text-sage-600"
+          viewBox="0 0 20 20"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2.2"
+          aria-hidden="true"
+        >
+          <path d="m4 10.5 4 4 8-9" stroke-linecap="round" stroke-linejoin="round" />
+        </svg>
+        <span>{item}</span>
+      </li>
+    ))
+  }
+</ul>

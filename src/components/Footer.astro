@@ -1,0 +1,76 @@
+---
+import Logo from './Logo.astro';
+import { SITE, NAV, CONTACT } from '../consts';
+
+const year = new Date().getFullYear();
+---
+
+<footer class="mt-auto bg-sage-900 text-sage-100">
+  <div class="container-page grid gap-10 py-14 sm:grid-cols-2 lg:grid-cols-4">
+    <div class="sm:col-span-2 lg:col-span-1">
+      <div class="flex items-center gap-3">
+        <Logo class="h-10 w-10" />
+        <span class="font-display text-lg font-semibold text-white">{SITE.name}</span>
+      </div>
+      <p class="mt-4 max-w-xs text-sage-100/80">{SITE.tagline}</p>
+    </div>
+
+    <div>
+      <h2 class="text-sm font-semibold tracking-widest text-sage-300 uppercase">Explore</h2>
+      <ul class="mt-4 space-y-2.5">
+        <li><a href="/" class="hover:text-white hover:underline">Home</a></li>
+        {
+          NAV.map((item) => (
+            <li>
+              <a href={item.href} class="hover:text-white hover:underline">
+                {item.label}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+
+    <div>
+      <h2 class="text-sm font-semibold tracking-widest text-sage-300 uppercase">Visit</h2>
+      <address class="mt-4 not-italic">
+        {CONTACT.addressLines.map((line) => <div>{line}</div>)}
+      </address>
+      <ul class="mt-4 space-y-1">
+        {
+          CONTACT.hours.map((slot) => (
+            <li class="text-sage-100/80">
+              {slot.days}: {slot.time}
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+
+    <div>
+      <h2 class="text-sm font-semibold tracking-widest text-sage-300 uppercase">Contact</h2>
+      <ul class="mt-4 space-y-2.5">
+        <li>
+          <a href={CONTACT.phoneHref} class="text-lg font-semibold text-white hover:underline">
+            {CONTACT.phone}
+          </a>
+        </li>
+        <li>
+          <a href={`mailto:${CONTACT.email}`} class="hover:text-white hover:underline">
+            {CONTACT.email}
+          </a>
+        </li>
+      </ul>
+      <p class="mt-4 text-sm text-sage-100/70">{CONTACT.tourNote}</p>
+    </div>
+  </div>
+
+  <div class="border-t border-white/10">
+    <div
+      class="container-page flex flex-col gap-2 py-6 text-sm text-sage-100/70 sm:flex-row sm:items-center sm:justify-between"
+    >
+      <p>&copy; {year} {SITE.name}. All rights reserved.</p>
+      <p>State license #{CONTACT.licenseNumber} &middot; Equal housing opportunity</p>
+    </div>
+  </div>
+</footer>

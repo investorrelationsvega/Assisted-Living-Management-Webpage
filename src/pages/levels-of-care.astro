@@ -1,0 +1,57 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
+import Section from '../components/Section.astro';
+import CheckList from '../components/CheckList.astro';
+import CtaBand from '../components/CtaBand.astro';
+import Button from '../components/Button.astro';
+import { CARE_LEVELS } from '../data/content';
+---
+
+<BaseLayout
+  title="Levels of Care"
+  description="Independent Plus, assisted living, memory care and short-term respite at Vega Assisted Living — what each level includes and who it fits."
+>
+  <PageHero
+    eyebrow="Levels of care"
+    title="Four levels, one community."
+    intro="Residents move between levels without moving out. A licensed nurse assesses what is needed now, and we revisit it as things change."
+  />
+
+  <Section tone="white">
+    <div class="space-y-16">
+      {
+        CARE_LEVELS.map((level, i) => (
+          <article id={level.slug} class="scroll-mt-28 border-t border-sand-200 pt-10 first:border-0 first:pt-0">
+            <div class="grid gap-8 lg:grid-cols-5">
+              <div class="lg:col-span-2">
+                <p class="text-sm font-semibold tracking-widest text-clay-600 uppercase">
+                  Level {i + 1}
+                </p>
+                <h2 class="mt-2 text-3xl font-semibold">{level.name}</h2>
+                <p class="mt-4 text-lg text-ink-500">{level.summary}</p>
+                <p class="mt-4 rounded-lg bg-sage-50 p-4 font-semibold text-sage-700">
+                  Consider this level when: {level.bestFor}
+                </p>
+              </div>
+              <div class="rounded-card border border-sand-200 bg-sand-50 p-6 sm:p-8 lg:col-span-3">
+                <h3 class="text-lg font-semibold">What&rsquo;s included</h3>
+                <CheckList class="mt-4" items={level.includes} />
+              </div>
+            </div>
+          </article>
+        ))
+      }
+    </div>
+  </Section>
+
+  <Section
+    tone="sage"
+    title="Not sure which level fits?"
+    intro="That is the normal starting point. The assessment is free, takes about 45 minutes, and ends with a written recommendation and a real monthly number — whether or not you move in."
+  >
+    <Button href="/contact/">Request an assessment</Button>
+  </Section>
+
+  <CtaBand />
+</BaseLayout>

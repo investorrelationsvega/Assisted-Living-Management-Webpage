@@ -1,0 +1,82 @@
+@import 'tailwindcss';
+
+/* Design tokens. The palette is warm and low-glare, and base type runs a step
+   larger than a typical marketing site — most visitors here are older adults
+   or their adult children reading on a phone. */
+@theme {
+  --color-sand-50: #fbf8f4;
+  --color-sand-100: #f4eee5;
+  --color-sand-200: #e7ddcd;
+
+  --color-sage-50: #eef5f2;
+  --color-sage-100: #d6e7e0;
+  --color-sage-300: #8cb9ab;
+  --color-sage-600: #2f6b5e;
+  --color-sage-700: #24564b;
+  --color-sage-900: #14312a;
+
+  --color-clay-100: #f8e7de;
+  --color-clay-500: #bd5f3b;
+  --color-clay-600: #a04d2d;
+
+  --color-ink-500: #4c5a5d;
+  --color-ink-700: #2b393c;
+  --color-ink-900: #162124;
+
+  --font-sans: 'Source Sans 3', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-display: 'Fraunces', ui-serif, Georgia, 'Times New Roman', serif;
+
+  --radius-card: 1rem;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    background-color: var(--color-sand-50);
+    color: var(--color-ink-700);
+    font-family: var(--font-sans);
+    font-size: 1.0625rem;
+    line-height: 1.65;
+  }
+
+  h1,
+  h2,
+  h3 {
+    font-family: var(--font-display);
+    color: var(--color-sage-900);
+    text-wrap: balance;
+  }
+
+  /* A visible, high-contrast focus ring everywhere — keyboard and screen-reader
+     users are a meaningful share of this audience. */
+  :focus-visible {
+    outline: 3px solid var(--color-clay-500);
+    outline-offset: 2px;
+    border-radius: 2px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+}
+
+@utility container-page {
+  width: 100%;
+  margin-inline: auto;
+  max-width: 72rem;
+  padding-inline: 1.25rem;
+}

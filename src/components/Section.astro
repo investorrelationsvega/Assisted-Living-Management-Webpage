@@ -1,0 +1,39 @@
+---
+interface Props {
+  eyebrow?: string;
+  title?: string;
+  intro?: string;
+  tone?: 'sand' | 'white' | 'sage';
+  id?: string;
+  class?: string;
+}
+
+const { eyebrow, title, intro, tone = 'sand', id, class: className = '' } = Astro.props;
+
+const tones = {
+  sand: 'bg-sand-50',
+  white: 'bg-white',
+  sage: 'bg-sage-50',
+} as const;
+---
+
+<section id={id} class={`${tones[tone]} py-16 sm:py-24 ${className}`}>
+  <div class="container-page">
+    {
+      (eyebrow || title || intro) && (
+        <div class="max-w-2xl">
+          {eyebrow && (
+            <p class="mb-3 text-sm font-semibold tracking-widest text-clay-600 uppercase">
+              {eyebrow}
+            </p>
+          )}
+          {title && <h2 class="text-3xl font-semibold sm:text-4xl">{title}</h2>}
+          {intro && <p class="mt-4 text-lg text-ink-500">{intro}</p>}
+        </div>
+      )
+    }
+    <div class={eyebrow || title || intro ? 'mt-12' : ''}>
+      <slot />
+    </div>
+  </div>
+</section>

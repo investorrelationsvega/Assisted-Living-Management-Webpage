@@ -1,0 +1,144 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Section from '../components/Section.astro';
+import Card from '../components/Card.astro';
+import Button from '../components/Button.astro';
+import CtaBand from '../components/CtaBand.astro';
+import CheckList from '../components/CheckList.astro';
+import { SITE, CONTACT } from '../consts';
+import { CARE_LEVELS, DIFFERENTIATORS, MOVE_IN_STEPS } from '../data/content';
+---
+
+<BaseLayout title={SITE.name} description={SITE.description}>
+  <!-- Hero. The image panel is an intentional placeholder: swap it for real
+       photography of the community before launch (see README). -->
+  <section class="bg-sand-100">
+    <div class="container-page grid items-center gap-12 py-16 sm:py-24 lg:grid-cols-2">
+      <div>
+        <p class="mb-4 text-sm font-semibold tracking-widest text-clay-600 uppercase">
+          Assisted living &amp; memory care
+        </p>
+        <h1 class="text-4xl leading-tight font-semibold sm:text-5xl lg:text-6xl">
+          Care that keeps up with the person, not the paperwork.
+        </h1>
+        <p class="mt-6 max-w-xl text-lg text-ink-500 sm:text-xl">
+          {SITE.name} is a small community where staff know every resident by name, care plans
+          change when needs do, and the monthly bill says exactly what it covers.
+        </p>
+        <div class="mt-8 flex flex-col gap-3 sm:flex-row">
+          <Button href="/contact/">Schedule a tour</Button>
+          <Button href="/levels-of-care/" variant="ghost">See levels of care</Button>
+        </div>
+        <p class="mt-6 text-ink-500">
+          Questions right now? Call{' '}
+          <a href={CONTACT.phoneHref} class="font-semibold whitespace-nowrap text-sage-700 hover:underline">
+            {CONTACT.phone}
+          </a>.
+        </p>
+      </div>
+
+      <div
+        class="relative aspect-4/3 overflow-hidden rounded-card bg-linear-to-br from-sage-300 via-sage-600 to-sage-900 shadow-lg"
+        role="img"
+        aria-label="Placeholder for a photograph of the Vega Assisted Living community"
+      >
+        <div class="absolute inset-0 opacity-25">
+          <svg viewBox="0 0 400 300" class="h-full w-full" aria-hidden="true">
+            <circle cx="320" cy="70" r="120" fill="white" opacity="0.35"></circle>
+            <circle cx="90" cy="240" r="140" fill="white" opacity="0.2"></circle>
+          </svg>
+        </div>
+        <div class="absolute right-6 bottom-6 left-6 rounded-xl bg-white/95 p-5">
+          <p class="font-display text-lg font-semibold text-sage-900">
+            Tours daily, including evenings
+          </p>
+          <p class="mt-1 text-ink-500">{CONTACT.tourNote}</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <Section
+    tone="white"
+    eyebrow="Why families choose Vega"
+    title="The things that actually matter, day to day."
+    intro="Every community says it is caring. Here is what that means in practice, and what you can hold us to."
+  >
+    <div class="grid gap-6 sm:grid-cols-2">
+      {
+        DIFFERENTIATORS.map((item) => (
+          <Card title={item.title}>
+            <p>{item.body}</p>
+          </Card>
+        ))
+      }
+    </div>
+  </Section>
+
+  <Section
+    eyebrow="Levels of care"
+    title="Support that starts where your family actually is."
+    intro="Most people need less than they fear, or more than they admit. An assessment sorts it out — and the plan moves as needs move."
+  >
+    <div class="grid gap-6 md:grid-cols-2">
+      {
+        CARE_LEVELS.map((level) => (
+          <Card title={level.name}>
+            <p>{level.summary}</p>
+            <p class="mt-4 text-sm font-semibold text-sage-700">{level.bestFor}</p>
+            <a
+              href={`/levels-of-care/#${level.slug}`}
+              class="mt-4 inline-block font-semibold text-sage-700 underline underline-offset-4 hover:text-sage-900"
+            >
+              What&rsquo;s included
+            </a>
+          </Card>
+        ))
+      }
+    </div>
+  </Section>
+
+  <Section
+    tone="white"
+    eyebrow="How it works"
+    title="Four steps, no pressure at any of them."
+  >
+    <ol class="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
+      {
+        MOVE_IN_STEPS.map((step, i) => (
+          <li>
+            <span class="flex h-12 w-12 items-center justify-center rounded-full bg-sage-100 font-display text-xl font-semibold text-sage-700">
+              {i + 1}
+            </span>
+            <h3 class="mt-4 text-xl font-semibold">{step.title}</h3>
+            <p class="mt-2 text-ink-500">{step.body}</p>
+          </li>
+        ))
+      }
+    </ol>
+  </Section>
+
+  <Section tone="sage">
+    <div class="grid items-center gap-10 lg:grid-cols-2">
+      <div>
+        <h2 class="text-3xl font-semibold sm:text-4xl">Included in every residence</h2>
+        <p class="mt-4 text-lg text-ink-500">
+          No line items for the basics. These come with the apartment, at every level of care.
+        </p>
+        <Button href="/pricing/" variant="ghost" class="mt-8">See what it costs</Button>
+      </div>
+      <CheckList
+        class="rounded-card bg-white p-6 text-lg sm:p-8"
+        items={[
+          'Three chef-prepared meals a day',
+          'Weekly housekeeping, linens and laundry',
+          'Utilities, Wi-Fi and cable',
+          'Daily activities and scheduled transportation',
+          '24-hour staffing and emergency response',
+        ]}
+      />
+    </div>
+  </Section>
+
+  <CtaBand />
+</BaseLayout>

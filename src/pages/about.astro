@@ -1,0 +1,110 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
+import Section from '../components/Section.astro';
+import Card from '../components/Card.astro';
+import CtaBand from '../components/CtaBand.astro';
+import { SITE, CONTACT } from '../consts';
+
+const values = [
+  {
+    title: 'Dignity first',
+    body: 'Care is something we do with residents, not to them. Preferences, routines and privacy carry over from the life they had before they moved in.',
+  },
+  {
+    title: 'Honest answers',
+    body: 'If this is not the right community for your family member, we will say so and point you somewhere better. A bad placement helps no one.',
+  },
+  {
+    title: 'Staffed properly',
+    body: 'Good care is a staffing question before it is anything else. We hire ahead of need and keep the people we train.',
+  },
+];
+---
+
+<BaseLayout
+  title="About"
+  description="Who runs Vega Assisted Living, how the community is staffed, and the standards we hold ourselves to."
+>
+  <PageHero
+    eyebrow="About"
+    title="A small community, run by people who stay."
+    intro="Vega Assisted Living was built around a simple bet: that consistent staff who know a resident well will catch what a larger, busier building misses."
+  />
+
+  <Section tone="white">
+    <div class="grid gap-10 lg:grid-cols-3">
+      <div class="lg:col-span-2">
+        <h2 class="text-3xl font-semibold">Our approach</h2>
+        <div class="mt-5 space-y-4 text-lg text-ink-500">
+          <p>
+            Most families arrive here after a fall, a diagnosis, or a long stretch of trying to
+            make things work at home. The decision is rarely made calmly, and it is almost never
+            made alone.
+          </p>
+          <p>
+            So we slow it down. We start with what a normal day looks like right now — what is
+            still easy, what has quietly gotten hard, what the family has been covering. That
+            conversation, not a brochure, is what determines the level of care and the cost.
+          </p>
+          <p>
+            From there, the care plan is a living document. It gets reviewed quarterly and
+            rewritten whenever something changes, and the family sees every version of it.
+          </p>
+        </div>
+      </div>
+
+      <aside class="rounded-card border border-sand-200 bg-sand-50 p-6 sm:p-8">
+        <h2 class="text-xl font-semibold">At a glance</h2>
+        <dl class="mt-5 space-y-4">
+          <div>
+            <dt class="text-sm font-semibold tracking-widest text-clay-600 uppercase">Licensed by</dt>
+            <dd class="mt-1">State license #{CONTACT.licenseNumber}</dd>
+          </div>
+          <div>
+            <dt class="text-sm font-semibold tracking-widest text-clay-600 uppercase">Care offered</dt>
+            <dd class="mt-1">Assisted living, memory care, short-term respite</dd>
+          </div>
+          <div>
+            <dt class="text-sm font-semibold tracking-widest text-clay-600 uppercase">Staffing</dt>
+            <dd class="mt-1">Licensed nurse on site daily, caregivers 24 hours</dd>
+          </div>
+          <div>
+            <dt class="text-sm font-semibold tracking-widest text-clay-600 uppercase">Location</dt>
+            <dd class="mt-1">
+              {CONTACT.addressLines.map((line) => <div>{line}</div>)}
+            </dd>
+          </div>
+        </dl>
+      </aside>
+    </div>
+  </Section>
+
+  <Section eyebrow="What we hold ourselves to" title="Three standards, plainly stated.">
+    <div class="grid gap-6 md:grid-cols-3">
+      {
+        values.map((value) => (
+          <Card title={value.title}>
+            <p>{value.body}</p>
+          </Card>
+        ))
+      }
+    </div>
+  </Section>
+
+  <Section tone="sage" title="Leadership">
+    <p class="max-w-2xl text-lg text-ink-500">
+      Executive director, director of nursing and life enrichment director bios go here — with
+      photos, credentials and years in senior care. Families read this section closely, so it is
+      worth writing properly rather than generically.
+    </p>
+    <p class="mt-6 inline-block rounded-lg bg-white px-4 py-3 font-semibold text-clay-600">
+      Placeholder — add real leadership bios before launch.
+    </p>
+  </Section>
+
+  <CtaBand
+    title={`See whether ${SITE.shortName} is the right fit.`}
+    body="The fastest way to know is to walk the building and meet the people who would be providing the care."
+  />
+</BaseLayout>

@@ -1,0 +1,77 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
+import Section from '../components/Section.astro';
+import CheckList from '../components/CheckList.astro';
+import CtaBand from '../components/CtaBand.astro';
+import { AMENITIES } from '../data/content';
+
+const sampleDay = [
+  { time: '7:00 am', what: 'Coffee and the morning paper in the sunroom' },
+  { time: '8:00 am', what: 'Breakfast to order in the dining room' },
+  { time: '10:00 am', what: 'Balance and stretch class, or a walk in the courtyard' },
+  { time: '12:30 pm', what: 'Lunch, then cards, crafts or a nap — no one is scheduled into anything' },
+  { time: '3:00 pm', what: 'Outing, music hour or visiting family' },
+  { time: '5:30 pm', what: 'Dinner, then a film, a book, or the porch' },
+];
+---
+
+<BaseLayout
+  title="Life at Vega"
+  description="Apartments, dining, activities and amenities at Vega Assisted Living — what a normal day actually looks like."
+>
+  <PageHero
+    eyebrow="Life at Vega"
+    title="A day that still belongs to the person living it."
+    intro="There is a calendar, and nobody is obligated to it. The point of the amenities is choice — something to do, and somewhere to be quiet."
+  />
+
+  <Section tone="white" title="A sample day" intro="Not a schedule. An illustration of the rhythm.">
+    <ol class="divide-y divide-sand-200 rounded-card border border-sand-200 bg-sand-50">
+      {
+        sampleDay.map((slot) => (
+          <li class="flex flex-col gap-1 p-5 sm:flex-row sm:gap-8 sm:p-6">
+            <span class="w-28 shrink-0 font-semibold text-sage-700">{slot.time}</span>
+            <span class="text-lg">{slot.what}</span>
+          </li>
+        ))
+      }
+    </ol>
+  </Section>
+
+  <Section
+    eyebrow="Amenities"
+    title="What comes with the community."
+    intro="Everything below is part of living here. Salon services and guest meals are the only common extras."
+  >
+    <div class="grid gap-6 md:grid-cols-2">
+      {
+        AMENITIES.map((group) => (
+          <div class="rounded-card border border-sand-200 bg-white p-6 sm:p-8">
+            <h3 class="text-xl font-semibold">{group.category}</h3>
+            <CheckList class="mt-4" items={group.items} />
+          </div>
+        ))
+      }
+    </div>
+  </Section>
+
+  <Section tone="sage" title="Family is not a visitor policy.">
+    <div class="grid gap-8 text-lg lg:grid-cols-3">
+      <p>
+        Come any time of day. Eat with your family member, take them out for the afternoon, bring
+        the grandkids and the dog.
+      </p>
+      <p>
+        Care conferences happen quarterly, and sooner whenever something changes. You will hear
+        from us before you have to ask.
+      </p>
+      <p>
+        The private dining room is available for birthdays, holidays and anniversaries — no charge
+        beyond the guest meals.
+      </p>
+    </div>
+  </Section>
+
+  <CtaBand />
+</BaseLayout>

@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <rect width="1200" height="630" fill="#14312a"/>
+  <circle cx="1050" cy="120" r="260" fill="#2f6b5e" opacity="0.55"/>
+  <circle cx="180" cy="560" r="220" fill="#2f6b5e" opacity="0.35"/>
+  <circle cx="90" cy="86" r="26" fill="#2f6b5e"/>
+  <path d="M74 76 90 105l16-29" fill="none" stroke="#fbf8f4" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+  <text x="132" y="98" font-family="Georgia, serif" font-size="34" fill="#fbf8f4">Vega Assisted Living</text>
+  <text x="90" y="300" font-family="Georgia, serif" font-size="68" fill="#fbf8f4">Care that keeps up with</text>
+  <text x="90" y="384" font-family="Georgia, serif" font-size="68" fill="#fbf8f4">the person, not the paperwork.</text>
+  <text x="90" y="470" font-family="Helvetica, Arial, sans-serif" font-size="32" fill="#d6e7e0">Assisted living, memory care and respite stays.</text>
+</svg>
